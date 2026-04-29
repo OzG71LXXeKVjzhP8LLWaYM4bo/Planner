@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { UserButton } from "@clerk/nextjs";
 import { Block, PlannerData } from "@/lib/types";
 import BlockEditor from "@/components/block-editor";
 import { Button } from "@/components/ui/button";
@@ -828,6 +829,7 @@ export default function Home() {
             </kbd>{" "}
             for commands
           </span>
+          <UserButton />
         </div>
       </header>
 

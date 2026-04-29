@@ -1,7 +1,8 @@
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import fs from "fs";
 import path from "path";
 
+const DATA_DIR = path.join(process.cwd(), "data");
 const DATA_PATH = path.join(process.cwd(), "data", "planner.json");
 
 function readData(): Record<string, Block[]> {
@@ -14,6 +15,7 @@ function readData(): Record<string, Block[]> {
 }
 
 function writeData(data: Record<string, Block[]>) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
   fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2));
 }
 
@@ -37,6 +39,10 @@ export async function POST(request: NextRequest) {
 
   if (!date) {
     return Response.json({ error: "date is required" }, { status: 400 });
+  }
+
+  if (!Array.isArray(blocks)) {
+    return Response.json({ error: "blocks must be an array" }, { status: 400 });
   }
 
   const data = readData();
