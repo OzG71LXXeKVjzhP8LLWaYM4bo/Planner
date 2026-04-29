@@ -21,8 +21,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Planner",
-  description: "A simple daily planner",
+  title: "Flowday - Free Monthly Planner",
+  description: "A free, clean monthly planner for mapping your days.",
 };
 
 export default function RootLayout({
