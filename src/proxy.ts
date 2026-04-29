@@ -8,11 +8,12 @@ export default clerkMiddleware(async (auth, request) => {
   const hostname = request.headers.get("host")?.split(":")[0] ?? "";
   const isAppHost = hostname === "app.flowday.live";
   const isWwwHost = hostname === "www.flowday.live" || hostname === "flowday.live";
+  const unauthenticatedUrl = new URL("/sign-in", request.url).toString();
 
   if (isAppHost && request.nextUrl.pathname === "/") {
     const url = request.nextUrl.clone();
     url.pathname = "/planner";
-    await auth.protect();
+    await auth.protect({ unauthenticatedUrl });
     return NextResponse.rewrite(url);
   }
 
@@ -24,7 +25,7 @@ export default clerkMiddleware(async (auth, request) => {
   }
 
   if (!isPublicRoute(request)) {
-    await auth.protect();
+    await auth.protect({ unauthenticatedUrl });
   }
 });
 
